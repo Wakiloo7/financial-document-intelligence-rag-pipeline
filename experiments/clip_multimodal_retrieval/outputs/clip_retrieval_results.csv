@@ -1,0 +1,4 @@
+rank,query,image_id,file_name,description,document_type,topic,similarity_score
+1,revenue trend chart,img_001,revenue_chart_sample.png,Sample revenue trend chart,financial_chart,revenue,0.34693390130996704
+2,revenue trend chart,img_003,balance_sheet_sample.png,Sample balance sheet table screenshot,financial_table,balance_sheet,0.24389611184597015
+3,revenue trend chart,img_002,risk_summary_sample.png,Sample risk summary document screenshot,document_screenshot,risk,0.2213737666606903

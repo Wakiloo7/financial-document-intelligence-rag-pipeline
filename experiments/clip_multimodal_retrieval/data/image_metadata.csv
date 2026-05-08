@@ -1,0 +1,4 @@
+image_id,file_name,description,document_type,topic
+img_001,revenue_chart_sample.png,Sample revenue trend chart,financial_chart,revenue
+img_002,risk_summary_sample.png,Sample risk summary document screenshot,document_screenshot,risk
+img_003,balance_sheet_sample.png,Sample balance sheet table screenshot,financial_table,balance_sheet

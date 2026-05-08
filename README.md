@@ -1,8 +1,8 @@
 # Financial Document Intelligence RAG Pipeline
 
-End-to-end financial document intelligence pipeline using **SEC Financial Statement and Notes data**, **hybrid retrieval**, **FAISS vector search**, **BM25 keyword search**, **cross-encoder re-ranking**, **LangChain**, **optional OpenAI LLM generation**, **FastAPI**, and retrieval evaluation.
+End-to-end financial document intelligence pipeline using **SEC Financial Statement and Notes data**, **hybrid retrieval**, **FAISS vector search**, **BM25 keyword search**, **cross-encoder re-ranking**, **LangChain**, **optional OpenAI LLM generation**, **FastAPI**, **Docker**, **LLaMA Factory + LoRA fine-tuning**, **LLM/RAG evaluation**, and **CLIP multimodal retrieval**.
 
-This project demonstrates how financial disclosure text can be ingested, cleaned, chunked, indexed, retrieved, re-ranked, filtered, and served through an API for source-grounded financial question answering.
+This project demonstrates how financial disclosure text can be ingested, cleaned, chunked, indexed, retrieved, re-ranked, filtered, evaluated, and served through an API for source-grounded financial question answering.
 
 The goal is to build a production-style Retrieval-Augmented Generation architecture for financial documents, where answers are supported by traceable evidence from SEC filings.
 
@@ -23,7 +23,10 @@ This project builds a financial document intelligence pipeline that can answer q
 - Local extractive answer generation without requiring an LLM API
 - Optional LangChain + OpenAI answer generation
 - FastAPI serving through a `/ask` endpoint
-- Retrieval evaluation using predefined financial questions
+- Dockerized API deployment
+- Retrieval and LLM evaluation
+- LLaMA Factory + LoRA fine-tuning demo
+- CLIP-based multimodal retrieval experiment
 
 The system works as an **evidence-grounded retrieval and LLM-ready RAG pipeline**. It retrieves the most relevant financial disclosure chunks and prepares a structured prompt that can be used by LangChain, OpenAI, Azure OpenAI, a local LLM, or another language model for final answer generation.
 
@@ -58,12 +61,16 @@ This project addresses that problem by creating a retrieval and answer-generatio
 - Cross-encoder re-ranking with FlashRank
 - Company and filing-form metadata filtering
 - FastAPI application for real-time querying
+- Dockerized API deployment
 - Source-grounded retrieval output with company, form, year, filed date, tag, and chunk ID
 - Local extractive answer mode when no API quota or key is available
 - Optional LangChain + OpenAI answer-generation layer
 - LLM-ready prompt generation
 - Source-cited answer output
 - Retrieval evaluation using financial question sets
+- LLM/RAG evaluation report covering groundedness, context relevance, citation correctness, and hallucination risk
+- LLaMA Factory + LoRA fine-tuning demo using TinyLlama and financial RAG-style instruction data
+- CLIP multimodal retrieval experiment for text-to-image search over financial chart/document images
 - Modular production-style Python project structure
 
 ---
@@ -109,8 +116,11 @@ flowchart LR
 | LLM Orchestration | LangChain |
 | Optional LLM Generation | OpenAI API / GPT model |
 | API Layer | FastAPI, Uvicorn |
+| Containerization | Docker, Docker Compose |
+| LLM Fine-tuning | LLaMA Factory, LoRA, TinyLlama |
+| Multimodal AI | CLIP |
+| LLM/RAG Evaluation | Groundedness, context relevance, citation correctness, hallucination risk |
 | Configuration | YAML, python-dotenv |
-| Evaluation | Retrieval evaluation with financial question set |
 | Version Control | Git and GitHub |
 
 ---
@@ -144,7 +154,10 @@ financial-document-intelligence-rag-pipeline/
 ├── README.md
 ├── requirements.txt
 ├── .gitignore
+├── .dockerignore
 ├── .env.example
+├── Dockerfile
+├── docker-compose.yml
 ├── main.py
 ├── config/
 │   └── config.yaml
@@ -157,6 +170,7 @@ financial-document-intelligence-rag-pipeline/
 ├── outputs/
 │   ├── api_response_sample.json
 │   ├── evaluation_results_sample.csv
+│   ├── llm_evaluation_sample.csv
 │   └── sec_note_chunks_sample.csv
 ├── vector_store/
 │   └── .gitkeep
@@ -183,13 +197,41 @@ financial-document-intelligence-rag-pipeline/
 │   └── utils/
 │       ├── logger.py
 │       └── config_loader.py
+├── experiments/
+│   ├── llama_factory_lora_finetuning/
+│   │   ├── README.md
+│   │   ├── RUN_COMMANDS.md
+│   │   ├── requirements-llamafactory.txt
+│   │   ├── configs/
+│   │   │   └── tinyllama_lora_sft.yaml
+│   │   ├── data/
+│   │   │   ├── dataset_info.json
+│   │   │   └── financial_instruction_sample.jsonl
+│   │   └── outputs/
+│   │       ├── lora_evaluation_sample.csv
+│   │       └── training_summary.txt
+│   └── clip_multimodal_retrieval/
+│       ├── README.md
+│       ├── requirements-clip.txt
+│       ├── data/
+│       │   ├── image_metadata.csv
+│       │   └── images/
+│       │       ├── revenue_chart_sample.png
+│       │       ├── risk_summary_sample.png
+│       │       └── balance_sheet_sample.png
+│       ├── outputs/
+│       │   ├── clip_retrieval_results.csv
+│       │   └── clip_run_summary.txt
+│       └── src/
+│           └── clip_image_search.py
 ├── prompts/
 │   ├── system_prompt.txt
 │   └── rag_prompt_template.txt
 ├── docs/
 │   ├── architecture.md
 │   ├── data_flow.md
-│   └── evaluation.md
+│   ├── evaluation.md
+│   └── llm_evaluation_report.md
 └── tests/
     ├── test_chunking.py
     ├── test_hybrid_search.py
@@ -557,30 +599,131 @@ Evaluation results saved to data/processed/evaluation_results.csv
 
 The current evaluation checks whether retrieved chunks contain the expected financial topic. Future improvements can add RAGAS-based metrics such as faithfulness, answer relevancy, context precision, and context recall.
 
+---
+
 ## LLM and Retrieval Evaluation Approach
 
 The project includes a lightweight evaluation workflow for checking whether retrieved evidence is suitable for source-grounded answer generation.
 
-## Evaluation considers:
+Evaluation considers:
 
 - **Context relevance**: whether the retrieved chunk directly addresses the question
 - **Groundedness**: whether the answer can be supported by the retrieved context
 - **Source traceability**: whether the response includes company, form, fiscal year, tag, and chunk ID
+- **Citation correctness**: whether the answer points to the correct source metadata
+- **Hallucination risk**: whether the answer introduces unsupported facts
 - **Metadata filtering correctness**: whether company/form filters prevent cross-company context mixing
+
+A detailed evaluation report is available at:
+
+```text
+docs/llm_evaluation_report.md
+```
 
 A sample evaluation output is included in:
 
 ```text
 outputs/llm_evaluation_sample.csv
+```
 
 ---
 
 ## LLaMA Factory LoRA Fine-tuning Demo
 
-This repository includes a compact LLaMA Factory + LoRA fine-tuning experiment under:
+This repository includes a compact **LLaMA Factory + LoRA fine-tuning** experiment under:
 
 ```text
 experiments/llama_factory_lora_finetuning/
+```
+
+The experiment uses financial RAG-style instruction data to fine-tune `TinyLlama/TinyLlama-1.1B-Chat-v1.0` with LoRA adapters.
+
+It includes:
+
+- Alpaca-style financial instruction dataset
+- LLaMA Factory dataset metadata
+- TinyLlama LoRA SFT configuration
+- Training command documentation
+- Successful local CPU-based training run
+- Training and evaluation metrics
+- Qualitative evaluation sample
+
+Training summary:
+
+```text
+Model: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+Method: LoRA supervised fine-tuning
+Trainable parameters: 1,126,400
+Training steps: 3
+Train loss: 1.8529
+Eval loss: 2.6567
+Runtime: 1:22:59 on CPU
+```
+
+This experiment demonstrates a practical workflow for instruction data preparation, LoRA configuration, LLaMA Factory training, and evaluation for source-grounded financial question answering.
+
+---
+
+## CLIP Multimodal Retrieval Experiment
+
+The repository includes a compact **CLIP-based multimodal retrieval** experiment under:
+
+```text
+experiments/clip_multimodal_retrieval/
+```
+
+The experiment demonstrates text-to-image retrieval for financial chart and document screenshot images using CLIP embeddings.
+
+Implemented components:
+
+- CLIP text embeddings
+- CLIP image embeddings
+- Similarity search
+- Financial image metadata
+- Sample financial chart/table images
+- Retrieval output CSV
+
+Example query:
+
+```text
+revenue trend chart
+```
+
+Top result:
+
+```text
+revenue_chart_sample.png
+```
+
+This experiment supports future multimodal document intelligence workflows such as chart retrieval, financial table image search, document screenshot retrieval, and multimodal RAG.
+
+---
+
+## Docker Deployment
+
+The FastAPI RAG service can be containerized using Docker.
+
+Build and run:
+
+```bash
+docker compose up --build
+```
+
+Open the API documentation:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+The Docker Compose setup mounts local `data/`, `vector_store/`, and `outputs/` folders into the container so the API can use generated FAISS and BM25 indexes without committing large artifacts to GitHub.
+
+Stop the service:
+
+```bash
+docker compose down
+```
+
+---
 
 ## How to Run the Project
 
@@ -719,9 +862,17 @@ Example sample outputs:
 outputs/api_response_sample.json
 outputs/evaluation_results_sample.csv
 outputs/sec_note_chunks_sample.csv
+outputs/llm_evaluation_sample.csv
 ```
 
-These sample files demonstrate that the pipeline ran successfully without making the repository heavy.
+Experiment outputs are stored under:
+
+```text
+experiments/llama_factory_lora_finetuning/outputs/
+experiments/clip_multimodal_retrieval/outputs/
+```
+
+Large generated model artifacts, checkpoints, and vector indexes are excluded from GitHub using `.gitignore`.
 
 ---
 
@@ -755,22 +906,27 @@ Implemented:
 - Cross-encoder re-ranking
 - Company/form filtering
 - FastAPI `/ask` endpoint
+- Dockerized FastAPI deployment
 - Local extractive source-grounded answer mode
 - Optional LangChain + OpenAI answer-generation layer
 - LLM-ready prompt preview
 - Retrieval evaluation output
+- LLM/RAG evaluation report
+- LLaMA Factory + LoRA fine-tuning demo
+- TinyLlama training evidence with train/eval metrics
+- CLIP multimodal retrieval experiment
 - Sample output files for GitHub
 
 Planned improvements:
 
 - Add RAGAS evaluation metrics
 - Add stronger table-aware parsing
-- Add Dockerfile and Docker Compose
 - Add Streamlit UI
 - Add fiscal year and tag-level filtering
 - Add more advanced source-cited generated answers
 - Add Azure OpenAI support
 - Add local LLM support through Ollama or Hugging Face models
+- Extend CLIP experiment into full multimodal RAG
 
 ---
 
@@ -793,9 +949,14 @@ This project demonstrates:
 - OpenAI API integration
 - LLM-ready prompt engineering
 - FastAPI development
+- Dockerized API deployment
 - Source-grounded financial question answering
 - Source-cited answer generation
 - Retrieval evaluation
+- LLM/RAG evaluation methodology
+- LLaMA Factory + LoRA fine-tuning
+- TinyLlama instruction fine-tuning workflow
+- CLIP-based multimodal retrieval
 - Modular Python engineering
 - ML/NLP pipeline design
 - Production-style RAG system architecture
@@ -818,20 +979,20 @@ Possible next upgrades:
 4. **UI Layer**  
    Add a Streamlit dashboard or lightweight frontend for interactive financial document search.
 
-5. **Docker Support**  
-   Containerize the API and retrieval service for reproducible deployment.
-
-6. **Advanced Metadata Filtering**  
+5. **Advanced Metadata Filtering**  
    Add filters for fiscal year, filed date, CIK, and disclosure tag.
 
-7. **Azure OpenAI Support**  
+6. **Azure OpenAI Support**  
    Add configuration for Azure OpenAI-based enterprise deployment.
 
-8. **Local LLM Support**  
+7. **Local LLM Support**  
    Add optional local answer generation using Ollama or Hugging Face models.
 
-9. **LangChain Extensions**  
+8. **LangChain Extensions**  
    Add LangChain retrieval chains, memory-free QA chains, or tool-based document inspection workflows.
+
+9. **Multimodal RAG Extension**  
+   Extend the CLIP experiment into a full multimodal RAG workflow for financial charts, screenshots, and table images.
 
 ---
 
@@ -839,7 +1000,7 @@ Possible next upgrades:
 
 This project is for educational and portfolio purposes. It uses publicly available SEC financial disclosure data and does not provide investment, legal, accounting, or financial advice.
 
-The system is designed to demonstrate financial document retrieval, RAG architecture, LangChain-based optional answer generation, and source-grounded document intelligence workflows.
+The system is designed to demonstrate financial document retrieval, RAG architecture, LangChain-based optional answer generation, LLaMA Factory fine-tuning, CLIP multimodal retrieval, and source-grounded document intelligence workflows.
 
 ---
 

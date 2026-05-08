@@ -1,0 +1,25 @@
+CLIP Multimodal Retrieval Experiment - Run Summary
+
+Model:
+openai/clip-vit-base-patch32
+
+Task:
+Text-to-image retrieval for financial chart and document screenshot images.
+
+Query:
+revenue trend chart
+
+Top result:
+revenue_chart_sample.png
+
+Similarity score:
+0.346934
+
+Result:
+The CLIP model correctly ranked the revenue chart image as the most relevant result for the natural-language query.
+
+Output file:
+experiments/clip_multimodal_retrieval/outputs/clip_retrieval_results.csv
+
+Purpose:
+This compact experiment demonstrates multimodal retrieval using CLIP text and image embeddings for financial document intelligence and future multimodal RAG workflows.
