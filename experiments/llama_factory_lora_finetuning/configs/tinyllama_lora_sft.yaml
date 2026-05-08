@@ -1,0 +1,41 @@
+### Model
+model_name_or_path: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+trust_remote_code: true
+
+### Method
+stage: sft
+do_train: true
+finetuning_type: lora
+lora_target: q_proj,v_proj
+
+### Dataset
+dataset: financial_rag_instruction_sample
+dataset_dir: experiments/llama_factory_lora_finetuning/data
+template: llama2
+cutoff_len: 256
+max_samples: 8
+overwrite_cache: true
+preprocessing_num_workers: 1
+
+### Output
+output_dir: experiments/llama_factory_lora_finetuning/outputs/tinyllama_financial_lora
+logging_steps: 1
+save_steps: 2
+plot_loss: true
+overwrite_output_dir: true
+
+### Train
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 1
+learning_rate: 0.0002
+max_steps: 3
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: false
+fp16: false
+
+### Evaluation
+val_size: 0.25
+per_device_eval_batch_size: 1
+eval_strategy: steps
+eval_steps: 2

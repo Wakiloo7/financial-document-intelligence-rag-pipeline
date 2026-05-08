@@ -1,0 +1,11 @@
+{
+  "financial_rag_instruction_sample": {
+    "file_name": "financial_instruction_sample.jsonl",
+    "formatting": "alpaca",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  }
+}

@@ -13,3 +13,12 @@ vector_store/*
 .DS_Store
 
 .env
+
+# LLaMA Factory generated model artifacts
+experiments/llama_factory_lora_finetuning/outputs/**/adapter_model.safetensors
+experiments/llama_factory_lora_finetuning/outputs/**/checkpoint-*/
+experiments/llama_factory_lora_finetuning/outputs/**/optimizer.pt
+experiments/llama_factory_lora_finetuning/outputs/**/scheduler.pt
+experiments/llama_factory_lora_finetuning/outputs/**/rng_state.pth
+experiments/llama_factory_lora_finetuning/outputs/**/trainer_state.json
+experiments/llama_factory_lora_finetuning/outputs/**/training_args.bin

@@ -575,6 +575,13 @@ outputs/llm_evaluation_sample.csv
 
 ---
 
+## LLaMA Factory LoRA Fine-tuning Demo
+
+This repository includes a compact LLaMA Factory + LoRA fine-tuning experiment under:
+
+```text
+experiments/llama_factory_lora_finetuning/
+
 ## How to Run the Project
 
 ### 1. Create a virtual environment

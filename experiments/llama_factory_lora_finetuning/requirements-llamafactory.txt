@@ -1,0 +1,9 @@
+llamafactory
+torch
+transformers
+datasets
+accelerate
+peft
+trl
+sentencepiece
+protobuf

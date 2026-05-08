@@ -1,0 +1,39 @@
+LLaMA Factory LoRA Fine-tuning Demo - Training Summary
+
+Model:
+TinyLlama/TinyLlama-1.1B-Chat-v1.0
+
+Fine-tuning method:
+LoRA supervised fine-tuning
+
+Dataset:
+financial_rag_instruction_sample.jsonl
+
+Task:
+Financial RAG-style instruction tuning for source-grounded financial disclosure question answering.
+
+Training environment:
+CPU-based local training
+
+Training configuration:
+- Max steps: 3
+- Trainable parameters: 1,126,400
+- Total parameters: 1,101,174,784
+- Trainable percentage: 0.1023%
+- Training examples: 6
+- Evaluation examples: 2
+
+Results:
+- Train loss: 1.8529
+- Eval loss: 2.6567
+- Training runtime: 1:22:59
+- Training completed successfully
+
+Generated evidence:
+- training_loss.png
+- training_eval_loss.png
+- training/evaluation metrics
+- LoRA output directory
+
+Purpose:
+This compact experiment demonstrates the workflow for preparing instruction data, configuring LoRA fine-tuning with LLaMA Factory, running supervised fine-tuning, and evaluating a domain-adapted LLM workflow for financial document intelligence.
