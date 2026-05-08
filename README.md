@@ -557,6 +557,22 @@ Evaluation results saved to data/processed/evaluation_results.csv
 
 The current evaluation checks whether retrieved chunks contain the expected financial topic. Future improvements can add RAGAS-based metrics such as faithfulness, answer relevancy, context precision, and context recall.
 
+## LLM and Retrieval Evaluation Approach
+
+The project includes a lightweight evaluation workflow for checking whether retrieved evidence is suitable for source-grounded answer generation.
+
+## Evaluation considers:
+
+- **Context relevance**: whether the retrieved chunk directly addresses the question
+- **Groundedness**: whether the answer can be supported by the retrieved context
+- **Source traceability**: whether the response includes company, form, fiscal year, tag, and chunk ID
+- **Metadata filtering correctness**: whether company/form filters prevent cross-company context mixing
+
+A sample evaluation output is included in:
+
+```text
+outputs/llm_evaluation_sample.csv
+
 ---
 
 ## How to Run the Project

@@ -1,0 +1,6 @@
+question,expected_topic,retrieved_company,retrieved_form,top_tag,top_chunk_id,rerank_score,context_relevance,groundedness,notes
+What does the filing say about revenue recognition?,Revenue recognition,SEI INVESTMENTS CO,10-Q,RevenueFromContractWithCustomerPolicyTextBlock,8690,0.9888,High,High,Top retrieved chunk directly contains the revenue recognition policy and source metadata.
+What are the main accounting policies mentioned?,Significant accounting policies,SEI INVESTMENTS CO,10-Q,SignificantAccountingPoliciesTextBlock,8717,0.1124,Medium,High,Retrieved chunk contains accounting policy context but may require additional chunks for broader coverage.
+What does the filing say about fair value measurements?,Fair value measurements,,,,,,Pending,Pending,To be evaluated with a targeted query.
+What does the company report about leases?,Lease disclosures,,,,,,Pending,Pending,To be evaluated with a targeted query.
+What does the filing say about debt or borrowings?,Debt and borrowings,,,,,,Pending,Pending,To be evaluated with a targeted query.
