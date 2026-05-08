@@ -1,0 +1,14 @@
+Question:
+{question}
+
+Retrieved Context:
+{context}
+
+Instructions:
+- Answer only using the retrieved context.
+- Be concise, specific, and evidence-based.
+- Do not invent financial facts.
+- If context is insufficient, say so.
+- Include source references in the answer.
+
+Answer:

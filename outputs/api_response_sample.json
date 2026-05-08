@@ -1,0 +1,16 @@
+{
+  "question": "What does the filing say about revenue recognition?",
+  "answer_mode": "local_extractive_answer",
+  "company_name": "SEI INVESTMENTS CO",
+  "form": "10-Q",
+  "top_source": {
+    "company_name": "SEI INVESTMENTS CO",
+    "form": "10-Q",
+    "fiscal_year": 2026,
+    "filed_date": 20260427,
+    "tag": "RevenueFromContractWithCustomerPolicyTextBlock",
+    "chunk_id": 8690,
+    "rerank_score": 0.9888
+  },
+  "answer_summary": "Revenue is recognized when control of promised goods or services is transferred to customers, in an amount reflecting the consideration the company expects to receive. The filing also discusses principal versus agent assessment for third-party arrangements."
+}

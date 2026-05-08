@@ -1,0 +1,43 @@
+project:
+  name: financial-document-intelligence-rag-pipeline
+  environment: local
+
+paths:
+  sec_notes_data: "C:/Users/md.w.ahmad/Downloads/LLMs/2026_04_notes"
+  processed: "data/processed"
+  chunks_file: "data/processed/sec_note_chunks.csv"
+  chunk_metadata_file: "data/processed/chunk_metadata.csv"
+  embeddings_file: "data/processed/embeddings.npy"
+  vector_store: "vector_store/faiss_index.faiss"
+  bm25_store: "vector_store/bm25_index.pkl"
+
+sec_files:
+  txt: "txt.tsv"
+  sub: "sub.tsv"
+  tag: "tag.tsv"
+
+processing:
+  max_rows_from_txt: 50000
+  pandas_chunksize: 10000
+  min_text_length: 80
+
+chunking:
+  chunk_size_words: 300
+  chunk_overlap_words: 60
+  min_chunk_words: 50
+
+embedding:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  normalize_embeddings: true
+
+retrieval:
+  top_k_vector: 20
+  top_k_bm25: 20
+  top_k_final: 5
+  rrf_k: 60
+  use_reranker: true
+  reranker_model: "ms-marco-MiniLM-L-12-v2"
+
+api:
+  host: "127.0.0.1"
+  port: 8000
