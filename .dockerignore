@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.git/
+.gitignore
+
+data/processed/*
+vector_store/*
+*.log
+.DS_Store
+
+outputs/
